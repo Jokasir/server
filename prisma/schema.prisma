@@ -19,6 +19,7 @@ model Products {
   price       Float
   description String
   photo       String?
+  status Boolean @default(true)
 
   categoryId Int?
   category   Categories? @relation(fields: [categoryId], references: [id])
@@ -30,5 +31,6 @@ model Categories {
   updatedAt DateTime @updatedAt
 
   name     String
+  status Boolean @default(true)
   products Products[]
 }
