@@ -6,7 +6,7 @@ export const productSchema = object({
     .refine((value) => !!value, { message: "Name is required" }),
   price: number().refine(
     (value) => value !== null && value !== undefined && value > 0,
-    { message: "Price must be a number greater than 0" }
+    { message: "Price is required" }
   ),
   description: string()
     .min(1)

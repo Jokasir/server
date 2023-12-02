@@ -120,7 +120,7 @@ export const update_product = async (
       throw err;
     });
 
-    res.status(201).json({
+    res.status(200).json({
       status: true,
       message: `Succesfully update product with id ${id}`,
       statusCode: "OK",
@@ -147,7 +147,7 @@ export const update_statusProduct = async (
       throw err;
     });
 
-    res.status(201).json({
+    res.status(200).json({
       status: true,
       message: `Succesfully update status product with id ${id}`,
       statusCode: "OK",
