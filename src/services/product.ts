@@ -67,8 +67,6 @@ export const createProduct = async (
       resolve(create);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        console.log("zod error: ", error.errors);
-
         console.error({
           errors: error.errors[0].message,
           from: "product services",
@@ -128,17 +126,19 @@ export const updateProduct = async (
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
+      
+      const getProduct = await db.products.findUnique({
+        where: { id: Number(id) },
+      });
+
       const validatedData = productSchema.parse({
         name,
         price: Number(price),
         description,
         categoryId: categoryId ? Number(categoryId) : null,
-        photo: photo !== null ? photo : null,
+        photo: photo !== null ? photo : getProduct?.photo,
       });
 
-      const getProduct = await db.products.findUnique({
-        where: { id: Number(id) },
-      });
       let result;
 
       if (getProduct) {

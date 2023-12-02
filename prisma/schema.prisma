@@ -19,7 +19,7 @@ model Products {
   price       Float
   description String
   photo       String?
-  status Boolean @default(true)
+  status      Boolean @default(true)
 
   categoryId Int?
   category   Categories? @relation(fields: [categoryId], references: [id])
@@ -31,6 +31,39 @@ model Categories {
   updatedAt DateTime @updatedAt
 
   name     String
-  status Boolean @default(true)
+  status   Boolean    @default(true)
   products Products[]
+}
+
+model Stores {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name     String
+  email    String
+  password String
+  province String
+  city     String
+  address  String
+  phone    String
+  status   Boolean @default(true)
+
+  adminID Int
+  admin   AdminUsers @relation(fields: [adminID], references: [id])
+}
+
+model AdminUsers {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  firstName String
+  lastName  String
+  email     String
+  password  String
+  phone     String
+  status    Boolean @default(true)
+
+  stores Stores[]
 }

@@ -48,15 +48,18 @@ export const get_product = async (
     let path_photo = `${req.headers.host}/public`;
 
     const result = await productList(path_photo);
-    res.status(201).json({
+    res.status(200).json({
       status: true,
       message: "Succesfully get all products",
       statusCode: "OK",
       response: result,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.log({
+      error: error,
+      from: "product controller"
+    });
+    next(error);
   }
 };
 
