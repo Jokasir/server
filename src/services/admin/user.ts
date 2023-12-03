@@ -2,13 +2,15 @@ import { db } from "../../utils/db.server";
 import { adminUserSchema } from "../../schema";
 import { z } from "zod";
 import * as bcrypt from "bcrypt";
+import { error } from "console";
 
 export const createAdmin = async (
   firstName: any,
   lastName: any,
   email: any,
   password: any,
-  phone: any
+  phone: any,
+  role: any
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -17,10 +19,11 @@ export const createAdmin = async (
         lastName,
         email,
         phone,
+        role,
       });
       if (password.length >= 6) {
         const hashPassword = await bcrypt.hash(password, 10);
-        const create = db.adminUsers.create({
+        const create = db.users.create({
           data: {
             ...validatedData,
             password: hashPassword,
@@ -58,8 +61,8 @@ export const createAdmin = async (
 export const adminLogin = async (email: any, password: any) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const verifyEmail = await db.adminUsers.findFirst({
-        where: {email: email},
+      const verifyEmail = await db.users.findFirst({
+        where: { email: email },
         select: {
           id: true,
           firstName: true,
@@ -67,17 +70,18 @@ export const adminLogin = async (email: any, password: any) => {
           email: true,
           password: true,
           phone: true,
+          role: true,
           status: true,
         },
       });
       console.log(verifyEmail);
-      
+
       if (verifyEmail) {
         const verifyPass = bcrypt.compareSync(password, verifyEmail.password);
 
         if (verifyPass) {
           resolve(verifyEmail);
-          return
+          return;
         }
       }
 
@@ -88,6 +92,30 @@ export const adminLogin = async (email: any, password: any) => {
         from: "Admin User Service",
       });
       resolve(error);
+    }
+  });
+};
+
+export const getUserById = async (id: any) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await db.users.findUnique({
+        where: {id: Number(id)},
+      });
+      if (result) {
+        resolve(result);
+      } else {
+        throw {
+          status: 404,
+          message: "User doesn't exist",
+        };
+      }
+    } catch (error) {
+      console.log({
+        error,
+        from: "User Service",
+      });
+      reject(error);
     }
   });
 };

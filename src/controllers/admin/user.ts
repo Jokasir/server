@@ -1,7 +1,7 @@
 import e, { NextFunction, Request, Response } from "express";
-import { adminLogin, createAdmin } from "../../services/admin/adminuser";
+import { adminLogin, createAdmin } from "../../services/admin/user";
 import { generateAccessTokenAdmin } from "../../utils/jwt";
-import { UserAdmin } from "../../schema/type";
+import { User } from "../../schema/type";
 
 export const create_admin = async (
   req: Request,
@@ -9,13 +9,14 @@ export const create_admin = async (
   next: NextFunction
 ) => {
   try {
-    const { firstName, lastName, email, password, phone } = req.body;
+    const { firstName, lastName, email, password, phone, role } = req.body;
     const create = await createAdmin(
       firstName,
       lastName,
       email,
       password,
-      phone
+      phone,
+      role
     );
 
     res.status(201).json({
@@ -46,12 +47,12 @@ export const login_admin = async (
         message: "username/password is required",
       };
     }
-    const result = (await adminLogin(email, password)) as UserAdmin;
+    const result = (await adminLogin(email, password)) as User;
 
     if (result && "message" in result) {
       throw result;
     }
-    
+
     const access_token = generateAccessTokenAdmin(result);
 
     res.status(200).json({
