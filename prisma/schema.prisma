@@ -41,8 +41,6 @@ model Stores {
   updatedAt DateTime @updatedAt
 
   name     String
-  email    String
-  password String
   province String
   city     String
   address  String
@@ -50,10 +48,10 @@ model Stores {
   status   Boolean @default(true)
 
   adminID Int
-  admin   AdminUsers @relation(fields: [adminID], references: [id])
+  admin   Users @relation(fields: [adminID], references: [id])
 }
 
-model AdminUsers {
+model Users {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,6 +61,7 @@ model AdminUsers {
   email     String
   password  String
   phone     String
+  role      String
   status    Boolean @default(true)
 
   stores Stores[]

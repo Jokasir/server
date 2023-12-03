@@ -32,4 +32,25 @@ export const adminUserSchema = object({
   phone: string()
     .min(1)
     .refine((value) => !!value, { message: "Phone is required" }),
+    role: string()
+    .min(1)
+    .refine((value) => !!value, { message: "Role is required" }),
 });
+
+export const storeSchema = object({
+  name:string()
+  .min(1)
+  .refine((value) => !!value, { message: "Name is required" }),
+  province: string()
+  .min(1)
+  .refine((value) => !!value, { message: "Province is required" }),
+  city: string()
+  .min(1)
+  .refine((value) => !!value, { message: "City is required" }),
+  address: string()
+  .min(1)
+  .refine((value) => !!value, { message: "Address is required" }),
+  phone: string()
+  .min(1)
+  .refine((value) => !!value, { message: "Phone is required" }),
+})
