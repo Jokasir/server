@@ -1,8 +1,6 @@
 # API Documentation
 
-## Endpoints :
-
-## Product
+# Product
 
 ### 1. GET /product
 
@@ -267,3 +265,6 @@ _Response (404 - Not Found)_
     "statusCode": "FAILED"
 }
 ```
+
+# Category
+
