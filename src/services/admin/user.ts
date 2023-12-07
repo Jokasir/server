@@ -71,6 +71,7 @@ export const adminLogin = async (email: any, password: any) => {
           password: true,
           phone: true,
           role: true,
+          stores: true,
           status: true,
         },
       });
