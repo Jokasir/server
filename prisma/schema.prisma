@@ -23,6 +23,8 @@ model Products {
 
   categoryId Int?
   category   Categories? @relation(fields: [categoryId], references: [id])
+  storeId Int?
+  store Stores? @relation(fields: [storeId], references: [id])
 }
 
 model Categories {
@@ -33,6 +35,8 @@ model Categories {
   name     String
   status   Boolean    @default(true)
   products Products[]
+  storeId Int?
+  store Stores? @relation(fields: [storeId], references: [id])
 }
 
 model Stores {
@@ -49,6 +53,8 @@ model Stores {
 
   adminID Int
   admin   Users @relation(fields: [adminID], references: [id])
+  products Products[]
+  categories Categories[]
 }
 
 model Users {
