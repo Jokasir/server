@@ -9,7 +9,7 @@ import {
 
 export const create_product = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, price, description, categoryId } = req.body;
+    const { name, price, description, categoryId, storeId } = req.body;
 
 
     let photo: string | null = null;
@@ -22,7 +22,8 @@ export const create_product = async (req: Request, res: Response, next: NextFunc
       price,
       description,
       categoryId,
-      photo
+      photo,
+      storeId
     );
     res.status(201).json({
       status: true,
@@ -45,9 +46,10 @@ export const get_product = async (
   next: NextFunction
 ) => {
   try {
+    const { storeId } = req.body
     let path_photo = `${req.headers.host}/public`;
 
-    const result = await productList(path_photo);
+    const result = await productList(path_photo, storeId);
     res.status(200).json({
       status: true,
       message: "Succesfully get all products",

@@ -3,11 +3,11 @@ import { unlink } from "fs";
 import { z } from "zod";
 import { productSchema } from "../schema";
 
-export const productList = async (path_photo: string) => {
+export const productList = async (path_photo: string, storeId: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const result = await db.products.findMany({
-        where: { status: true },
+        where: { status: true, storeId: Number(storeId) },
         select: {
           id: true,
           name: true,
@@ -15,6 +15,7 @@ export const productList = async (path_photo: string) => {
           description: true,
           category: true,
           photo: true,
+          storeId: true
         },
       });
       const transformResult = result.map((d, k) => {
@@ -45,7 +46,8 @@ export const createProduct = async (
   price: any,
   description: any,
   categoryId: any | null,
-  photo: string | null
+  photo: string | null,
+  storeId: any
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -61,6 +63,7 @@ export const createProduct = async (
         data: {
           ...validatedData,
           status: true,
+          storeId: Number(storeId)
         },
       });
 
@@ -110,6 +113,10 @@ export const productDetail = async (id: string, path_photo: string) => {
         throw { status: 404, message: `Product with id ${id} not found` };
       }
     } catch (error) {
+      console.error({
+        errors: error,
+        from: "product services",
+      });
       reject(error);
     }
   });
@@ -126,7 +133,6 @@ export const updateProduct = async (
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
-      
       const getProduct = await db.products.findUnique({
         where: { id: Number(id) },
       });

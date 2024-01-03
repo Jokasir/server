@@ -17,7 +17,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
-app.use(rootRoutes)
+app.use('/api',rootRoutes)
 app.use(errorHandler)
 
 app.use(
