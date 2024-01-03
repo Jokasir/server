@@ -3,6 +3,7 @@ import { create_product, get_product, get_productDetail, update_product, update_
 import { uploadFile } from "../middleware/multer";
 import { create_category, get_category, get_categoryDetail } from "../controllers/category";
 import admin from "./admin"
+import { create_sales } from "../controllers/sales";
 
 const router = express.Router();
 
@@ -19,5 +20,9 @@ router.patch('/product/:id', update_statusProduct)
 router.post('/category', create_category)
 router.get('/category', get_category)
 router.get('/category/:id', get_categoryDetail)
+
+// * Sales
+
+router.post('/sales-invoice', create_sales)
 
 export default router

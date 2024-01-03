@@ -2,7 +2,6 @@ import { db } from "../../utils/db.server";
 import { adminUserSchema } from "../../schema";
 import { z } from "zod";
 import * as bcrypt from "bcrypt";
-import { error } from "console";
 
 export const createAdmin = async (
   firstName: any,

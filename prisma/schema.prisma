@@ -55,6 +55,7 @@ model Stores {
   admin   Users @relation(fields: [adminID], references: [id])
   products Products[]
   categories Categories[]
+  sales Sales[]
 }
 
 model Users {
@@ -71,4 +72,17 @@ model Users {
   status    Boolean @default(true)
 
   stores Stores[]
+}
+
+model Sales {
+   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cashier String
+  amount Int
+  details Json
+
+  storeId Int
+  store Stores? @relation(fields: [storeId], references: [id])
 }
